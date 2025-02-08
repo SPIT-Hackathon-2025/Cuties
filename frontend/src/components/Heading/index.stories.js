@@ -1,5 +1,5 @@
 import Heading from 'components/Heading';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 
 export default {
   title: 'Heading',

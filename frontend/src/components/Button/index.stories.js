@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { action } from '@storybook/addon-actions';
 import { Button } from 'components/Button';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 
 export default {
   title: 'Button',

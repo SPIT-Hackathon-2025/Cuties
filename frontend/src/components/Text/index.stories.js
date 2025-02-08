@@ -1,5 +1,5 @@
 import Text from 'components/Text';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 
 export default {
   title: 'Text',

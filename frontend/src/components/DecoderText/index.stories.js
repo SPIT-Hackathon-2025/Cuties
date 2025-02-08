@@ -1,5 +1,5 @@
 import DecoderText from 'components/DecoderText';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 import Heading from 'components/Heading';
 
 export default {
