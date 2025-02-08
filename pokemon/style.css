@@ -1,0 +1,22 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#game-container {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+#user-card, #computer-card {
+    width: 150px;
+    height: 200px;
+    background-color: lightgray;
+    text-align: center;
+    margin-top: 10px;
+}
+
+img {
+    width: 100%;
+}
