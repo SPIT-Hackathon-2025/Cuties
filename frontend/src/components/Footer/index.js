@@ -6,11 +6,20 @@ const Footer = () => (
     <span className="footer__date">
       {`© ${new Date().getFullYear()} Crafted By Yours Truly`}
     </span>
-    {/* <Link secondary className="footer__link" href="/humans.txt" target="_self">
-      Crafted by yours truly
-    </Link> */}
+
     <span className="footer__date">
-      {`Madhura Kanfade, Jsh Agrawal, Maaz Malik, Jiten Genwani`}
+      <a href="https://www.linkedin.com/in/madhura-kanfade-28816a249/" target="_blank" rel="noopener noreferrer">
+        Madhura Kanfade
+      </a>,{' '}
+      <a href="https://www.linkedin.com/in/jsh-agarwal/" target="_blank" rel="noopener noreferrer">
+        Jsh Agrawal
+      </a>,{' '}
+      <a href="https://www.linkedin.com/in/maaz-malik-632756255/" target="_blank" rel="noopener noreferrer">
+        Maaz Malik
+      </a>,{' '}
+      <a href="https://www.linkedin.com/in/jiten-ganwani/" target="_blank" rel="noopener noreferrer">
+        Jiten Genwani
+      </a>
     </span>
   </footer>
 );

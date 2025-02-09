@@ -1,5 +1,5 @@
 import Loader from 'components/Loader';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 
 export default {
   title: 'Loader',
