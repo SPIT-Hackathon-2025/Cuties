@@ -1,30 +1,54 @@
 import './index.css';
 import { Fragment } from 'react';
+import { useLocation } from 'react-router-dom';
+import { appendTransaction } from './client';
 
-const NFTDetail = ({ 
-  id, 
-  imageUrl, 
-  title, 
-  description, 
-  price, 
-  owner, 
-  source, 
-  exCoins, 
-  skills, 
-  achievements, 
-  contribution
-}) => {
+const NFTDetail = (props) => {
+  // Merge any props passed from the router's location state with the original props.
+  // This ensures that the "source" value (and any other NFT data) is preserved.
+  const location = useLocation();
+  const data = { ...props, ...location.state };
+
+  const { 
+    id, 
+    imageUrl, 
+    title, 
+    description, 
+    price, 
+    owner, 
+    source, 
+    exCoins, 
+    skills, 
+    achievements, 
+    contribution 
+  } = data;
   
-  // Check if user came from inventory or marketplace
+  // Determine if this NFT is from inventory
   const isFromInventory = source === 'inventory';
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (isFromInventory) {
       console.log("Initiating sell process for NFT ID:", id);
+      const transaction = {
+        type: "AssetTransfer",
+        amount: 4321,
+        seller: "selfseller",
+        buyer: "somebuyer"
+      };
+      console.log(transaction);
+      await appendTransaction(transaction);
       // Add logic to complete the sell transaction
     } else {
+      const transaction = {
+        type: "AssetTransfer",
+        amount: 1234,
+        seller: "owner",
+        buyer: "selfbuyer"
+      };
+      console.log(transaction);
       console.log("Processing purchase for NFT ID:", id);
       // Add logic to handle the NFT purchase
+      await appendTransaction(transaction);
     }
   };
 
@@ -79,7 +103,7 @@ const NFTDetail = ({
                 className="nft-detail__button" 
                 onClick={handleButtonClick}
               >
-                {isFromInventory ? 'Complete Sell' : 'Buy Now'}
+                {isFromInventory ? 'Sell Now' : 'Buy Now'}
               </button>
             </div>
           </div>

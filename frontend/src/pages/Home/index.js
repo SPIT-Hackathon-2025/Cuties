@@ -93,7 +93,7 @@ const Home = () => {
         index={1}
         title="WagerVerse Marketplace"
         description="Explore, Collect, and Trade Amazing Looking NFTs on a Decentralized Marketplace"
-        buttonText="marketplace"
+        buttonText="Marketplace"
         buttonLink="/marketplace"
         model={{
           type: 'laptop',
@@ -114,8 +114,8 @@ const Home = () => {
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
         title="Inventory "
-        description="buy,sell and stack nft and win rewards"
-        buttonText="View"
+        description="View, Organize, and Trade Your NFT Collection with Ease in Your Secure Inventory"
+        buttonText="Inventory"
         buttonLink="/inventory"
         model={{
           type: 'phone',
@@ -139,9 +139,9 @@ const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="Dasboard"
-        description="Buy, Sell And Stake NFT And Win Rewards"
-        buttonText="View"
+        title="Dashboard"
+        description="Track, Manage, and Optimize Your NFT Portfolio Seamlessly on a Decentralized Dashboard"
+        buttonText="Dashboard"
         buttonLink="/dashboard"
         model={{
           type: 'laptop',

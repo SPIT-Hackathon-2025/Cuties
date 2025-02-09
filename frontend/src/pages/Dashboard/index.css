@@ -13,8 +13,17 @@
   font-weight: bold;
   color: rgb(var(--rgbText)); /* Use your theme color */
   margin-bottom: 20px; /* Space below the heading */
+  /* padding-left: 100px; Shift heading to the right */
+  text-align : center;
+}
+
+.dashboard__heading_main {
+  font-size: 2em; /* Adjust size as needed */
+  font-weight: bold;
+  color: rgb(var(--rgbText)); /* Use your theme color */
+  margin-bottom: 20px; /* Space below the heading */
   text-align: left; /* Align heading to the left */
-  padding-left: 100px; /* Shift heading to the right */
+  padding-left: 70px; /* Shift heading to the right */
 }
 
 .dashboard__container {

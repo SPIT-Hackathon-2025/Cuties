@@ -13,15 +13,18 @@ const Inventory = () => {
       try {
         const inventoryData = await getInventory(username); // Fetch inventory data
         console.log(inventoryData); // Log the fetched data for debugging
-        setNfts(inventoryData.data.map((item) => ({
-          id: item.assetid,
-          imageUrl: "https://picsum.photos/200/300",
-          title: item.assetName, // Ensure this property exists
-          description: item.assetdescription, // Corrected to access directly
-          price: item.assetcost + " ETH",
-          owner: item.username,
-          source: "inventory"
-        }))); // Set the fetched data to state
+        
+        setNfts(
+          inventoryData.data.map((item) => ({
+            id: item.assetid,
+            imageUrl: "https://picsum.photos/200/300",
+            title: item.assetName,
+            description: item.assetdescription,
+            price: item.assetcost + " ETH",
+            owner: item.username,
+            source: "inventory", 
+          }))
+        ); 
       } catch (err) {
         setError('Failed to load inventory.'); // Handle error
       } finally {
@@ -46,7 +49,15 @@ const Inventory = () => {
           ) : (
             <div className="inventory__card-grid">
               {nfts.map((nft) => (
-                <Frame key={nft.id} {...nft} />
+                <div key={nft.id} className="inventory__card">
+                  <Frame {...nft} />
+                  <button 
+                    className="inventory__action-button" 
+                    onClick={() => console.log(`Initiating sell process for NFT ID: ${nft.id}`)}
+                  >
+                    Sell
+                  </button>
+                </div>
               ))}
             </div>
           )}

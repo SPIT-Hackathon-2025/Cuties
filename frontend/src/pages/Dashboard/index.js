@@ -49,7 +49,7 @@ const Dashboard = () => {
   return (
     <Fragment>
       <div className="dashboard">
-        <h1 className="dashboard__heading">Dashboard</h1>
+        <h1 className="dashboard__heading_main">Dashboard</h1>
         <div className="dashboard__container">
           {data.length === 0 ? (
             <p>No transaction data available.</p>
