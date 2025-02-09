@@ -1,0 +1,186 @@
+.dashboard {
+  padding: 120px 80px 40px 240px; /* Increased left padding to account for sidebar */
+  min-height: 100vh;
+  background: rgb(var(--rgbBackground));
+  color: rgb(var(--rgbText));
+}
+
+.dashboard__container {
+  max-width: 1800px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(280px, 1fr) minmax(580px, 2fr);
+  gap: 40px;
+  height: calc(100vh - 160px);
+}
+
+.dashboard__metrics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding-right: 12px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.dashboard__transactions-container {
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 12px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.dashboard__card {
+  background: rgb(var(--rgbBackgroundLight));
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(var(--rgbPrimary), 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.dashboard__net-flow {
+  font-size: 2.5em;
+  color: rgb(var(--rgbPrimary));
+  font-weight: bold;
+  margin: 16px 0;
+  font-family: var(--fontMono);
+}
+
+.dashboard__blockchain-address {
+  font-family: var(--fontMono);
+  color: rgba(var(--rgbText), 0.7);
+  word-break: break-all;
+  font-size: 0.9em;
+  padding: 8px 12px;
+  background: rgba(var(--rgbText), 0.1);
+  border-radius: 8px;
+  width: fit-content;
+}
+
+.dashboard__table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.dashboard__table th {
+  background: rgba(var(--rgbPrimary), 0.1);
+  color: rgb(var(--rgbText));
+  padding: 16px;
+  text-align: left;
+  font-size: 0.95em;
+  font-weight: var(--fontWeightMedium);
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid rgba(var(--rgbText), 0.1);
+}
+
+.dashboard__table td {
+  padding: 16px;
+  border-bottom: 1px solid rgba(var(--rgbText), 0.1);
+  font-size: 0.95em;
+}
+
+.dashboard__transaction-type {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: rgba(var(--rgbPrimary), 0.1);
+  color: rgb(var(--rgbPrimary));
+  font-weight: var(--fontWeightMedium);
+  font-size: 0.9em;
+}
+
+.dashboard__heading {
+  color: rgb(var(--rgbText));
+  font-size: 1.2em;
+  font-weight: var(--fontWeightMedium);
+  margin-bottom: 20px;
+}
+
+.dashboard__metric-value {
+  font-size: 1.1em;
+  color: rgb(var(--rgbText));
+  margin: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard__metric-value span {
+  color: rgb(var(--rgbPrimary));
+  font-family: var(--fontMono);
+}
+
+.dashboard__chart-container {
+  position: relative;
+  height: 300px;
+  margin: 20px 0;
+  padding: 20px;
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.dashboard__metrics-container::-webkit-scrollbar,
+.dashboard__transactions-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Update responsive breakpoints */
+@media (max-width: 1400px) {
+  .dashboard {
+    padding: 120px 40px 40px 200px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard {
+    padding: 120px 40px 40px 180px;
+  }
+  .dashboard__container {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 696px) {
+  .dashboard {
+    padding: 100px 20px 20px 20px;
+  }
+}
+
+/* Add these styles to your existing CSS */
+.dashboard__chart-legend {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 0 20px;
+}
+
+.dashboard__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1em;
+  background: rgba(var(--rgbText), 0.05);
+  padding: 8px 16px;
+  border-radius: 20px;
+}
+
+.dashboard__legend-color {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--rgbText), 0.1);
+}
+
+.dashboard__legend-label {
+  color: rgb(var(--rgbText));
+  font-family: var(--fontMono);
+  font-weight: var(--fontWeightMedium);
+} 

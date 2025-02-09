@@ -12,7 +12,6 @@ import { blurOnMouseUp } from 'utils/focus';
 import { media, msToNum, numToMs } from 'utils/style';
 import { reflow } from 'utils/transition';
 import NavToggle from './NavToggle';
-import ThemeToggle from './ThemeToggle';
 import { navLinks, socialLinks } from './navData';
 
 const NavbarIcons = () => (
@@ -59,7 +58,7 @@ function Header(props) {
     <header className="navbar" ref={headerRef}>
       <RouterLink
         className="navbar__logo"
-        to={{ pathname: '/', hash: '#intro', state: hashKey }}
+        to={{ pathname: '/', hash: '#intro' }}
         aria-label="WagerVerse"
         onClick={handleMobileNavClick}
         onMouseUp={blurOnMouseUp}
@@ -75,7 +74,7 @@ function Header(props) {
               aria-current={isMatch(pathname, hash) ? 'page' : undefined}
               onClick={handleNavClick}
               key={label}
-              to={{ pathname, hash, state: hashKey }}
+              to={{ pathname, hash }}
               onMouseUp={blurOnMouseUp}
             >
               {label}
@@ -102,7 +101,7 @@ function Header(props) {
                 aria-current={isMatch(pathname, hash) ? 'page' : undefined}
                 key={label}
                 onClick={handleMobileNavClick}
-                to={{ pathname, hash, state: hashKey }}
+                to={{ pathname, hash }}
                 onMouseUp={blurOnMouseUp}
                 style={{
                   transitionDelay: numToMs(
@@ -114,11 +113,9 @@ function Header(props) {
               </RouterLink>
             ))}
             <NavbarIcons />
-            <ThemeToggle isMobile />
           </nav>
         )}
       </Transition>
-      {!isMobile && <ThemeToggle />}
     </header>
   );
 }

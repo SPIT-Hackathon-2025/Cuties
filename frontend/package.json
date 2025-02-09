@@ -29,6 +29,7 @@
   "dependencies": {
     "@mdx-js/loader": "^2.3.0",
     "@mdx-js/react": "^2.3.0",
+    "chart.js": "^4.4.7",
     "classnames": "^2.3.1",
     "history": "^5.1.0",
     "popmotion": "^8.7.5",
@@ -41,9 +42,9 @@
     "three": "^0.125.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build:storybook": "build-storybook -o build-storybook",
+    "start": "NODE_OPTIONS='--openssl-legacy-provider' react-scripts start",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' react-scripts build",
+    "build:storybook": "NODE_OPTIONS='--openssl-legacy-provider' build-storybook -o build-storybook",
     "postbuild": "react-snap",
     "deploy": "aws s3 sync --delete build/ s3://hamish-portfolio-site",
     "deploy:storybook": "aws s3 sync --delete build-storybook s3://hamish-portfolio-storybook",

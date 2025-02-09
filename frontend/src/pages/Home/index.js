@@ -113,10 +113,10 @@ const Home = () => {
         sectionRef={projectTwo}
         visible={visibleSections.includes(projectTwo.current)}
         index={2}
-        title="NFT Trading "
+        title="Inventory "
         description="buy,sell and stack nft and win rewards"
         buttonText="View"
-        buttonLink="/nft"
+        buttonLink="/inventory"
         model={{
           type: 'phone',
           alt: 'App login screen',
@@ -139,10 +139,10 @@ const Home = () => {
         sectionRef={projectThree}
         visible={visibleSections.includes(projectThree.current)}
         index={3}
-        title="NFT Trading"
+        title="Dasboard"
         description="Buy, Sell And Stake NFT And Win Rewards"
         buttonText="View"
-        buttonLink="/nft"
+        buttonLink="/dashboard"
         model={{
           type: 'laptop',
           alt: 'NFT trade',
