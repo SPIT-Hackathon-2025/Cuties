@@ -21,10 +21,10 @@ const Marketplace = () => {
         setNfts(marketplaceData.data.map((item) => ({
           id: item?.assetid || "N/A",
           imageUrl: "https://picsum.photos/200/300",
-          title: item?.assetName || "Unnamed NFT",
+          title: item?.assetname || "Unnamed NFT",
           description: item?.assetdescription || "No description available",
           price: item?.assetcost ? `${item.assetcost} ETH` : "Price unavailable",
-          owner: item?.username || "Unknown Owner",
+          owner: item?.seller || "Unknown Owner",
           source: "marketplace"
         }))); // Set fetched data
       } catch (err) {

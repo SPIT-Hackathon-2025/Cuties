@@ -18,10 +18,10 @@ const Inventory = () => {
           inventoryData.data.map((item) => ({
             id: item.assetid,
             imageUrl: "https://picsum.photos/200/300",
-            title: item.assetName,
+            title: item.assetname,
             description: item.assetdescription,
             price: item.assetcost + " ETH",
-            owner: item.username,
+            owner: item.seller,
             source: "inventory", 
           }))
         ); 
