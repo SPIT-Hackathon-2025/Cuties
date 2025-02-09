@@ -46,8 +46,8 @@
 .nft-detail__info-section {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  height: 500px;
+  gap: 20px;
+  height: auto;
   overflow-y: auto;
   padding-right: 12px;
   scrollbar-width: none;
@@ -60,13 +60,14 @@
 
 .nft-detail__header {
   margin-bottom: 8px;
+  text-align: left;
 }
 
 .nft-detail__title {
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: var(--fontWeightBold);
   color: rgb(var(--rgbText));
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .nft-detail__price {
@@ -74,12 +75,16 @@
   color: rgb(var(--rgbPrimary));
   font-family: var(--fontMono);
   font-weight: var(--fontWeightMedium);
+  text-align: left;
 }
 
 .nft-detail__ownership {
   background: rgba(var(--rgbText), 0.05);
   padding: 20px;
   border-radius: 12px;
+  padding-left: 5px;
+  padding-bottom: 0%;
+  padding-top: 10px;
 }
 
 .nft-detail__subtitle {
@@ -87,6 +92,7 @@
   color: rgb(var(--rgbText));
   margin-bottom: 12px;
   font-weight: var(--fontWeightMedium);
+  text-align: left;
 }
 
 .nft-detail__address {
@@ -97,13 +103,17 @@
   background: rgba(var(--rgbText), 0.1);
   padding: 12px;
   border-radius: 8px;
+  text-align: left;
+  padding-left: 5px;
+  padding-bottom: 0px;
 }
 
 .nft-detail__stats {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 8px;
+  margin-top: 2px;
+  padding-top: 0px;
 }
 
 .nft-detail__stat-item {
@@ -113,7 +123,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  text-align: center;
+  text-align: left;
 }
 
 .nft-detail__stat-label {
@@ -160,6 +170,7 @@
   font-size: 1.5em;
   font-weight: var(--fontWeightMedium);
   color: rgb(var(--rgbText));
+  text-align: left;
 }
 
 .nft-detail__coins {

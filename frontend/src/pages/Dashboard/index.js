@@ -54,9 +54,9 @@ const Dashboard = () => {
             <div className="dashboard__card">
               <h2 className="dashboard__heading">Net Flow</h2>
               <div className="dashboard__net-flow">${netFlow.toLocaleString()}</div>
-              <div className="dashboard__blockchain-address">
+              {/* <div className="dashboard__blockchain-address">
                 0x742d35Cc6634C0532925a3b844Bc454e4438f44e
-              </div>
+              </div> */}
             </div>
 
             <div className="dashboard__card">
