@@ -202,3 +202,31 @@
   font-family: var(--fontMono);
   font-weight: var(--fontWeightMedium);
 } 
+
+.dashboard__table-header {
+  position: sticky;
+  top: 0;
+  background: rgb(var(--rgbBackground)); /* Match background to avoid transparency issues */
+  z-index: 10; /* Ensure it stays above the scrolling content */
+}
+.dashboard__table th {
+  background: rgb(var(--rgbBackground)); /* Ensure header background remains */
+  color: rgb(var(--rgbText));
+  padding: 16px;
+  text-align: left;
+  font-size: 0.95em;
+  font-weight: var(--fontWeightMedium);
+  position: sticky;
+  top: 0; /* Stick to the top */
+  z-index: 10; /* Higher than table content */
+  border-bottom: 1px solid rgba(var(--rgbText), 0.1);
+  background-color: rgba(26, 26, 26, 1);
+}
+.dashboard__transactions-container {
+  height: 100%;
+  overflow-y: auto; /* Allow scrolling */
+  padding-right: 12px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  
+}

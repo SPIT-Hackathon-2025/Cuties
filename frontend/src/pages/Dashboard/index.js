@@ -83,7 +83,7 @@ const Dashboard = () => {
               <div className="dashboard__transactions-container dashboard__card">
                 <h2 className="dashboard__heading">Transaction History</h2>
                 <table className="dashboard__table">
-                  <thead>
+                  <thead className="dashboard__table-header">
                     <tr>
                       <th>Type</th>
                       <th>Amount</th>
