@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FPS Ray Casting Game</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: #000;
+        }
+        #gameCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        #gunOverlay {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 200px;
+            background: url('./image.png') no-repeat center bottom;
+            pointer-events: none;
+            animation: gunBob 0.5s infinite alternate ease-in-out;
+        }
+        @keyframes gunBob {
+            from { transform: translateX(-50%) translateY(0px); }
+            to { transform: translateX(-50%) translateY(10px); }
+        }
+        #gunFlare {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.05s ease-out;
+        }
+        .flare-active {
+            opacity: 1 !important;
+        }
+        #crosshair {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            pointer-events: none;
+        }
+        #crosshair::before,
+        #crosshair::after {
+            content: '';
+            position: absolute;
+            background: white;
+            opacity: 0.5;
+        }
+        #crosshair::before {
+            width: 2px;
+            height: 20px;
+            left: 9px;
+        }
+        #crosshair::after {
+            width: 20px;
+            height: 2px;
+            top: 9px;
+        }
+        #debug {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: monospace;
+            background: rgba(0,0,0,0.5);
+            padding: 10px;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="gameCanvas"></canvas>
+    <div id="gunOverlay"></div>
+    <div id="gunFlare">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="40" fill="yellow" filter="blur(8px)" opacity="0.7"/>
+            <circle cx="50" cy="50" r="20" fill="white" filter="blur(4px)" opacity="0.9"/>
+        </svg>
+    </div>
+    <div id="crosshair"></div>
+    <div id="debug"></div>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        const debug = document.getElementById('debug');
+        const gunFlare = document.getElementById('gunFlare');
+
+        // Constants
+        const FOV = Math.PI / 3;
+        const HALF_FOV = FOV / 2;
+        const NUM_RAYS = 600;
+        const MAX_DEPTH = 5;
+        const PLAYER_SPEED = 0.05;
+        const PLAYER_TURN_SPEED = 0.03;
+        const SHOOT_DISTANCE = MAX_DEPTH;
+        const ENEMY_HIT_RADIUS = 0.3;
+
+        // Game state
+        let isPointerLocked = false;
+
+        // Initialize canvas
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Map configuration
+        const map = [
+            [1,1,1,1,1,1,1,1],
+            [1,0,0,0,0,0,0,1],
+            [1,0,1,0,1,0,0,1],
+            [1,0,0,0,0,1,0,1],
+            [1,0,1,0,0,0,0,1],
+            [1,0,0,0,1,0,0,1],
+            [1,0,0,0,0,0,0,1],
+            [1,1,1,1,1,1,1,1]
+        ];
+
+        // Player configuration
+        const player = {
+            x: 1.5,
+            y: 1.5,
+            angle: 0,
+            speed: PLAYER_SPEED,
+            turnSpeed: PLAYER_TURN_SPEED
+        };
+
+        // Enemy configuration
+        const enemy = {
+            x: 0,
+            y: 0,
+            isAlive: true,
+            image: new Image()
+        };
+
+        // Initialize enemy position
+        function initializeEnemy() {
+            do {
+                enemy.x = Math.floor(Math.random() * 6) + 1;
+                enemy.y = Math.floor(Math.random() * 6) + 1;
+            } while (map[Math.floor(enemy.y)][Math.floor(enemy.x)] === 1);
+            
+            enemy.image.src = './enemy.png';
+        }
+        initializeEnemy();
+
+        // Input handling
+        const keys = {
+            w: false,
+            s: false,
+            a: false,
+            d: false,
+            ArrowLeft: false,
+            ArrowRight: false,
+            ' ': false
+        };
+
+        function shoot() {
+            if (!enemy.isAlive) return;
+            
+            // Show gun flare
+            gunFlare.classList.add('flare-active');
+            
+            // Hide gun flare after short delay
+            setTimeout(() => {
+                gunFlare.classList.remove('flare-active');
+            }, 50);
+            
+            const rayAngle = player.angle;
+            let rayX = player.x;
+            let rayY = player.y;
+            let distance = 0;
+            
+            while (distance < SHOOT_DISTANCE) {
+                distance += 0.1;
+                rayX = player.x + Math.cos(rayAngle) * distance;
+                rayY = player.y + Math.sin(rayAngle) * distance;
+                
+                // Check if hit wall
+                if (map[Math.floor(rayY)][Math.floor(rayX)] === 1) break;
+                
+                // Check if hit enemy
+                const dx = rayX - enemy.x;
+                const dy = rayY - enemy.y;
+                const distToEnemy = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distToEnemy < ENEMY_HIT_RADIUS && enemy.isAlive) {
+                    enemy.isAlive = false;
+                    enemy.image.src = './deadenemy.png';
+                    break;
+                }
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('keydown', (e) => {
+            if (e.key === ' ') {
+                shoot();
+            }
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = true;
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (keys.hasOwnProperty(e.key)) {
+                keys[e.key] = false;
+            }
+        });
+
+        canvas.addEventListener('click', () => {
+            canvas.requestPointerLock();
+        });
+
+        document.addEventListener('pointerlockchange', () => {
+            isPointerLocked = document.pointerLockElement === canvas;
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isPointerLocked) {
+                player.angle += e.movementX * 0.003;
+            }
+        });
+
+        // Utility functions
+        function normalizeAngle(angle) {
+            angle = angle % (2 * Math.PI);
+            if (angle < 0) angle += 2 * Math.PI;
+            return angle;
+        }
+
+        function castRay(angle) {
+            let rayX = player.x;
+            let rayY = player.y;
+            let distanceToWall = 0;
+
+            const eyeX = Math.cos(angle);
+            const eyeY = Math.sin(angle);
+
+            while (distanceToWall < MAX_DEPTH) {
+                distanceToWall += 0.1;
+
+                const testX = Math.floor(rayX + eyeX * distanceToWall);
+                const testY = Math.floor(rayY + eyeY * distanceToWall);
+
+                if (testX < 0 || testX >= map[0].length || testY < 0 || testY >= map.length) {
+                    return MAX_DEPTH;
+                }
+
+                if (map[testY][testX] === 1) {
+                    return distanceToWall;
+                }
+            }
+
+            return MAX_DEPTH;
+        }
+
+        function isWall(x, y) {
+            const mapX = Math.floor(x);
+            const mapY = Math.floor(y);
+            return mapX < 0 || mapX >= map[0].length || 
+                   mapY < 0 || mapY >= map.length || 
+                   map[mapY][mapX] === 1;
+        }
+
+        function updatePlayer() {
+            let dx = 0;
+            let dy = 0;
+
+            if (keys.w) {
+                dx += Math.cos(player.angle);
+                dy += Math.sin(player.angle);
+            }
+            if (keys.s) {
+                dx -= Math.cos(player.angle);
+                dy -= Math.sin(player.angle);
+            }
+            if (keys.a) {
+                dx += Math.cos(player.angle - Math.PI/2);
+                dy += Math.sin(player.angle - Math.PI/2);
+            }
+            if (keys.d) {
+                dx += Math.cos(player.angle + Math.PI/2);
+                dy += Math.sin(player.angle + Math.PI/2);
+            }
+
+            // Normalize diagonal movement
+            if (dx !== 0 && dy !== 0) {
+                const length = Math.sqrt(dx * dx + dy * dy);
+                dx = dx / length;
+                dy = dy / length;
+            }
+
+            const newX = player.x + dx * player.speed;
+            const newY = player.y + dy * player.speed;
+
+            // Collision detection with walls
+            if (!isWall(newX, player.y)) player.x = newX;
+            if (!isWall(player.x, newY)) player.y = newY;
+
+            // Arrow key rotation
+            if (keys.ArrowLeft) player.angle -= player.turnSpeed;
+            if (keys.ArrowRight) player.angle += player.turnSpeed;
+
+            // Normalize angle
+            player.angle = normalizeAngle(player.angle);
+
+            // Update debug info
+            debug.textContent = `
+                Position: (${player.x.toFixed(2)}, ${player.y.toFixed(2)})
+                Angle: ${(player.angle * 180 / Math.PI).toFixed(2)}°
+                Enemy: ${enemy.isAlive ? 'Alive' : 'Dead'}
+                Enemy Position: (${enemy.x.toFixed(2)}, ${enemy.y.toFixed(2)})
+            `;
+        }
+
+        function render() {
+            // Clear canvas
+            ctx.fillStyle = '#000';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw sky
+            const skyGradient = ctx.createLinearGradient(0, 0, 0, canvas.height/2);
+            skyGradient.addColorStop(0, '#87CEEB');
+            skyGradient.addColorStop(1, '#B0E2FF');
+            ctx.fillStyle = skyGradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height / 2);
+
+            // Draw ground
+            ctx.fillStyle = '#4a4a4a';
+            ctx.fillRect(0, canvas.height / 2, canvas.width, canvas.height / 2);
+
+            // Store enemy rendering data
+            const enemyRenderData = [];
+
+            // Cast rays and draw walls
+            for (let x = 0; x < canvas.width; x += canvas.width / NUM_RAYS) {
+                const rayAngle = normalizeAngle(player.angle - HALF_FOV + (x / canvas.width) * FOV);
+                const distance = castRay(rayAngle);
+                
+                // Calculate wall height and brightness
+                const wallHeight = (canvas.height / distance);
+                const brightness = Math.min(1, 1 - (distance / MAX_DEPTH));
+                
+                // Draw wall slice
+                const r = Math.floor(139 * brightness);
+                const g = Math.floor(69 * brightness);
+                const b = Math.floor(19 * brightness);
+                
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
+                ctx.fillRect(
+                    x, 
+                    (canvas.height - wallHeight) / 2,
+                    canvas.width / NUM_RAYS + 1,
+                    wallHeight
+                );
+
+                // Check for enemy visibility
+                const dx = enemy.x - player.x;
+                const dy = enemy.y - player.y;
+                const distToEnemy = Math.sqrt(dx * dx + dy * dy);
+                const angleToEnemy = Math.atan2(dy, dx);
+                
+                const angleDiff = Math.abs(normalizeAngle(angleToEnemy - rayAngle));
+                
+                if (angleDiff < 0.1 && distToEnemy < distance) {
+                    enemyRenderData.push({
+                        x,
+                        distToEnemy,
+                        brightness: Math.min(1, 1 - (distToEnemy / MAX_DEPTH))
+                    });
+                }
+            }
+
+            // Draw enemy sprites
+            enemyRenderData.forEach(data => {
+                const enemyHeight = canvas.height / data.distToEnemy;
+                const enemyWidth = enemyHeight * (enemy.image.width / enemy.image.height || 1);
+                
+                ctx.drawImage(
+                    enemy.image,
+                    data.x - enemyWidth/2,
+                    (canvas.height - enemyHeight) / 2,
+                    enemyWidth,
+                    enemyHeight
+                );
+            });
+        }
+
+        function gameLoop() {
+            updatePlayer();
+            render();
+            requestAnimationFrame(gameLoop);
+        }
+
+        gameLoop();
+    </script>
+</body>
+</html>

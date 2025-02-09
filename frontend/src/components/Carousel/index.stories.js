@@ -1,5 +1,5 @@
 import Carousel from 'components/Carousel';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 
 export default {
   title: 'Carousel',

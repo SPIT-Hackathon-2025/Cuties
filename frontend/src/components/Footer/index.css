@@ -19,3 +19,11 @@
   padding-right: var(--spaceXS);
   display: inline-flex;
 }
+.footer a {
+  color: white; /* Ensures link text remains white */
+  text-decoration: none; /* Removes underline */
+}
+
+.footer a:hover {
+  text-decoration: underline; /* Optional: Adds underline on hover */
+}

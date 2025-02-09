@@ -1,5 +1,5 @@
 import Model from 'components/Model/index';
-import { StoryContainer } from '../../../.storybook/StoryContainer';
+import { StoryContainer } from '../../../../.storybook/StoryContainer';
 import deviceModels from './deviceModels';
 import phoneTexturePlaceholder from 'assets/gamestack-login-placeholder.jpg';
 import phoneTexture from 'assets/gamestack-login.jpg';

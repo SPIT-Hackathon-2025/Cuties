@@ -1,34 +1,20 @@
 export const navLinks = [
-  // {
-  //   label: 'Projects',
-  //   pathname: '/',
-  //   hash: '#project-1',
-  // },
-  // {
-  //   label: 'Details',
-  //   pathname: '/',
-  //   hash: '#details',
-  // },
-  // {
-  //   label: 'Articles',
-  //   pathname: '/articles',
-  // },
-  // {
-  //   label: 'Contact',
-  //   pathname: '/contact',
-  // },
-
   {
-    label:'Wallet',
-    pathname: '/wallet',
+    label: 'Home',
+    pathname: '/',
+    hash: '#intro',
   },
   {
-    label:'Profile',
-    pathname: '/profile',
+    label: 'Inventory',
+    pathname: '/inventory',
   },
   {
-    label:'Logout',
-    pathname: '/logout',
+    label: 'Marketplace',
+    pathname: '/marketplace',
+  },
+  {
+    label: 'Dashboard',
+    pathname: '/dashboard',
   }
 ];
 
