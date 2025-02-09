@@ -49,63 +49,70 @@ const Dashboard = () => {
   return (
     <Fragment>
       <div className="dashboard">
+        <h1 className="dashboard__heading">Dashboard</h1>
         <div className="dashboard__container">
-          <div className="dashboard__metrics-container">
-            <div className="dashboard__card">
-              <h2 className="dashboard__heading">Net Flow</h2>
-              <div className="dashboard__net-flow">${netFlow.toLocaleString()}</div>
-              {/* <div className="dashboard__blockchain-address">
-                0x742d35Cc6634C0532925a3b844Bc454e4438f44e
-              </div> */}
-            </div>
+          {data.length === 0 ? (
+            <p>No transaction data available.</p>
+          ) : (
+            <>
+              <div className="dashboard__metrics-container">
+                <div className="dashboard__card">
+                  <h2 className="dashboard__heading">Net Flow</h2>
+                  <div className="dashboard__net-flow">${netFlow.toLocaleString()}</div>
+                  {/* <div className="dashboard__blockchain-address">
+                    0x742d35Cc6634C0532925a3b844Bc454e4438f44e
+                  </div> */}
+                </div>
 
-            <div className="dashboard__card">
-              <h2 className="dashboard__heading">Transaction Statistics</h2>
-              <div className="dashboard__metric-value">
-                Total Transactions <span>{data?.length || 0}</span>
-              </div>
-              <div className="dashboard__metric-value">
-                Average Amount <span>${avgAmount}</span>
-              </div>
-              <div className="dashboard__metric-value">
-                Unique Buyers <span>{uniqueBuyers}</span>
-              </div>
-            </div>
+                <div className="dashboard__card">
+                  <h2 className="dashboard__heading">Transaction Statistics</h2>
+                  <div className="dashboard__metric-value">
+                    Total Transactions <span>{data?.length || 0}</span>
+                  </div>
+                  <div className="dashboard__metric-value">
+                    Average Amount <span>${avgAmount}</span>
+                  </div>
+                  <div className="dashboard__metric-value">
+                    Unique Buyers <span>{uniqueBuyers}</span>
+                  </div>
+                </div>
 
-            {data && <TypeDistributionChart data={data} />}
-          </div>
+                {data && <TypeDistributionChart data={data} />}
+              </div>
 
-          <div className="dashboard__transactions-container dashboard__card">
-            <h2 className="dashboard__heading">Transaction History</h2>
-            <table className="dashboard__table">
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Amount</th>
-                  <th>Buyer</th>
-                  <th>Seller</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((transaction, index) => (
-                  <tr key={index}>
-                    <td>
-                      <span className="dashboard__transaction-type">
-                        {transaction.type}
-                      </span>
-                    </td>
-                    <td>${transaction.amount.toLocaleString()}</td>
-                    <td>{transaction.buyer}</td>
-                    <td>{transaction.seller}</td>
-                    <td>
-                      {new Date(transaction.timestamp * 1000).toLocaleString()}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              <div className="dashboard__transactions-container dashboard__card">
+                <h2 className="dashboard__heading">Transaction History</h2>
+                <table className="dashboard__table">
+                  <thead>
+                    <tr>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Buyer</th>
+                      <th>Seller</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {data?.map((transaction, index) => (
+                      <tr key={index}>
+                        <td>
+                          <span className="dashboard__transaction-type">
+                            {transaction.type}
+                          </span>
+                        </td>
+                        <td>${transaction.amount.toLocaleString()}</td>
+                        <td>{transaction.buyer}</td>
+                        <td>{transaction.seller}</td>
+                        <td>
+                          {new Date(transaction.timestamp * 1000).toLocaleString()}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </Fragment>

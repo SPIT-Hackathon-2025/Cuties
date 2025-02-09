@@ -1,74 +1,55 @@
 import './index.css';
 import Frame from 'components/Card/Frame';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { getInventory } from './marketplaceClient';
 
 const Inventory = () => {
-  const nfts = [
-    {
-      id: 1,
-      imageUrl: "https://picsum.photos/400/600?random=1",
-      title: "Digital Art #1",
-      description: "A unique digital art piece",
-      price: "0.5 ETH",
-      owner: "0x742...4832",
-      source: "inventory"
-    },
-    {
-      id: 2,
-      imageUrl: "https://picsum.photos/400/600?random=2",
-      title: "Cyber Knight",
-      description: "Legendary cyber collection",
-      price: "1.2 ETH",
-      owner: "0x742...4832",
-      source: "inventory"
-    },
-    {
-      id: 3,
-      imageUrl: "https://picsum.photos/400/600?random=3",
-      title: "Abstract Mind",
-      description: "Part of Abstract collection",
-      price: "0.8 ETH",
-      owner: "0x742...4832",
-      source: "inventory"
-    },
-    {
-      id: 4,
-      imageUrl: "https://picsum.photos/400/600?random=4",
-      title: "Digital Art #2",
-      description: "Unique digital creation",
-      price: "0.3 ETH",
-      owner: "0x742...4832",
-      source: "inventory"
-    },
-    {
-      id: 5,
-      imageUrl: "https://picsum.photos/400/600?random=5",
-      title: "Cyber World",
-      description: "Digital landscape art",
-      price: "0.6 ETH",
-      owner: "0x742...4832",
-      source: "inventory"
-    },
-    {
-      id: 6,
-      imageUrl: "https://picsum.photos/400/600?random=6",
-      title: "Mind Space",
-      description: "Abstract art collection",
-      price: "0.9 ETH",
-      owner: "0x742...4832",
-      source: "inventory"
-    }
-  ];
+  const [nfts, setNfts] = useState([]); // State to hold NFTs
+  const [loading, setLoading] = useState(true); // State to manage loading
+  const [error, setError] = useState(null); // State to manage errors
+
+  useEffect(() => {
+    const fetchInventory = async (username) => {
+      try {
+        const inventoryData = await getInventory(username); // Fetch inventory data
+        console.log(inventoryData); // Log the fetched data for debugging
+        setNfts(inventoryData.data.map((item) => ({
+          id: item.assetid,
+          imageUrl: "https://picsum.photos/200/300",
+          title: item.assetName, // Ensure this property exists
+          description: item.assetdescription, // Corrected to access directly
+          price: item.assetcost + " ETH",
+          owner: item.username,
+          source: "inventory"
+        }))); // Set the fetched data to state
+      } catch (err) {
+        setError('Failed to load inventory.'); // Handle error
+      } finally {
+        setLoading(false); // Set loading to false
+      }
+    };
+
+    fetchInventory("User3"); // Call the function to fetch data
+  }, []); // Empty dependency array to run only on mount
 
   return (
     <Fragment>
       <div className="inventory">
+        <h1 className="inventory__heading">Inventory</h1>
         <div className="inventory__content">
-          <div className="inventory__card-grid">
-            {nfts.map((nft) => (
-              <Frame key={nft.id} {...nft} />
-            ))}
-          </div>
+          {loading ? (
+            <p>Loading...</p> // Show loading message
+          ) : error ? (
+            <p>{error}</p> // Show error message
+          ) : nfts.length === 0 ? (
+            <p>No NFTs available in your inventory.</p> // Show no data message
+          ) : (
+            <div className="inventory__card-grid">
+              {nfts.map((nft) => (
+                <Frame key={nft.id} {...nft} />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Fragment>

@@ -3,11 +3,14 @@
   min-height: 100vh;
   background: rgb(var(--rgbBackground));
   color: rgb(var(--rgbText));
+  padding-left: 140px;
+  padding-top: 50px;
 }
 
 .nft-detail__container {
   max-width: 1400px;
   margin: 0 auto;
+  padding-left: 20px;
 }
 
 .nft-detail__content {
@@ -36,11 +39,6 @@
   height: 100%;
   object-fit: cover;
   border-radius: 16px;
-  transition: transform 0.3s ease;
-}
-
-.nft-detail__image:hover {
-  transform: scale(1.02);
 }
 
 .nft-detail__info-section {
@@ -148,11 +146,6 @@
   font-size: 1.1em;
   font-weight: var(--fontWeightMedium);
   cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.nft-detail__button:hover {
-  background: rgba(var(--rgbPrimary), 0.8);
 }
 
 .nft-detail__transaction-header {
@@ -225,4 +218,4 @@
   .nft-detail__transaction-title {
     font-size: 1.2em;
   }
-} 
+}

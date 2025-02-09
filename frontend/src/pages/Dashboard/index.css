@@ -1,13 +1,27 @@
 .dashboard {
-  padding: 120px 80px 40px 240px; /* Increased left padding to account for sidebar */
+  padding: 120px 40px; /* Adjust left padding */
   min-height: 100vh;
   background: rgb(var(--rgbBackground));
   color: rgb(var(--rgbText));
+  display: flex;
+  flex-direction: column; /* Stack heading and content */
+  padding-left: 120px;;
+}
+
+.dashboard__heading {
+  font-size: 2em; /* Adjust size as needed */
+  font-weight: bold;
+  color: rgb(var(--rgbText)); /* Use your theme color */
+  margin-bottom: 20px; /* Space below the heading */
+  text-align: left; /* Align heading to the left */
+  padding-left: 100px; /* Shift heading to the right */
 }
 
 .dashboard__container {
-  max-width: 1800px;
-  margin: 0 auto;
+  max-width: 1400px;
+  margin: 0 auto; /* Center the container */
+  padding-left: 20px; /* Shift container to the right */
+  padding-top: 20px; /* Add padding above the container */
   display: grid;
   grid-template-columns: minmax(280px, 1fr) minmax(580px, 2fr);
   gap: 40px;
@@ -46,8 +60,10 @@
   font-size: 2.5em;
   color: rgb(var(--rgbPrimary));
   font-weight: bold;
-  margin: 16px 0;
+  /* margin: 16px 0; */
   font-family: var(--fontMono);
+  align-items: center;
+  padding-left: 25%;
 }
 
 .dashboard__blockchain-address {
@@ -94,13 +110,6 @@
   color: rgb(var(--rgbPrimary));
   font-weight: var(--fontWeightMedium);
   font-size: 0.9em;
-}
-
-.dashboard__heading {
-  color: rgb(var(--rgbText));
-  font-size: 1.2em;
-  font-weight: var(--fontWeightMedium);
-  margin-bottom: 20px;
 }
 
 .dashboard__metric-value {

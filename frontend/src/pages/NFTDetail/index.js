@@ -1,14 +1,32 @@
 import './index.css';
-import { useLocation, useParams } from 'react-router-dom';
 import { Fragment } from 'react';
 
-const NFTDetail = () => {
-  const { id } = useParams();
-  const { state } = useLocation();
-  const { imageUrl, title, description, price, owner, source } = state || {};
+const NFTDetail = ({ 
+  id, 
+  imageUrl, 
+  title, 
+  description, 
+  price, 
+  owner, 
+  source, 
+  exCoins, 
+  skills, 
+  achievements, 
+  contribution
+}) => {
   
   // Check if user came from inventory or marketplace
-  const isFromInventory = state?.source === 'inventory';
+  const isFromInventory = source === 'inventory';
+
+  const handleButtonClick = () => {
+    if (isFromInventory) {
+      console.log("Initiating sell process for NFT ID:", id);
+      // Add logic to complete the sell transaction
+    } else {
+      console.log("Processing purchase for NFT ID:", id);
+      // Add logic to handle the NFT purchase
+    }
+  };
 
   return (
     <Fragment>
@@ -17,7 +35,7 @@ const NFTDetail = () => {
           <h1 className="nft-detail__transaction-title">
             Transaction: NFTTransfer/AssetTransfer
           </h1>
-          <div className="nft-detail__coins">500 EXcoins</div>
+          <div className="nft-detail__coins">{exCoins || "500 EXcoins"}</div>
         </div>
 
         <div className="nft-detail__container">
@@ -45,19 +63,22 @@ const NFTDetail = () => {
               <div className="nft-detail__stats">
                 <div className="nft-detail__stat-item">
                   <span className="nft-detail__stat-label">Skills</span>
-                  <span className="nft-detail__stat-value">Level 5</span>
+                  <span className="nft-detail__stat-value">{skills || "Level 5"}</span>
                 </div>
                 <div className="nft-detail__stat-item">
                   <span className="nft-detail__stat-label">Achievements</span>
-                  <span className="nft-detail__stat-value">12 Badges</span>
+                  <span className="nft-detail__stat-value">{achievements || "12 Badges"}</span>
                 </div>
                 <div className="nft-detail__stat-item">
                   <span className="nft-detail__stat-label">Contribution</span>
-                  <span className="nft-detail__stat-value">789 Points</span>
+                  <span className="nft-detail__stat-value">{contribution || "789 Points"}</span>
                 </div>
               </div>
 
-              <button className="nft-detail__button">
+              <button 
+                className="nft-detail__button" 
+                onClick={handleButtonClick}
+              >
                 {isFromInventory ? 'Complete Sell' : 'Buy Now'}
               </button>
             </div>
