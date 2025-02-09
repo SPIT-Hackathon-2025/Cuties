@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Battle</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .title {
+            font-size: 3em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .title span:first-child {
+            color: #ffd700;  /* Pokemon in yellow */
+        }
+
+        .title span:last-child {
+            color: #ff4444;  /* Battle in red */
+        }
+
+        .start-button, .battle-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .start-button:hover, .battle-button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: stretch;  /* Changed to stretch to ensure equal heights */
+            margin: 40px auto;
+            max-width: 1200px;
+            gap: 20px;  /* Added gap for consistent spacing */
+        }
+
+        .side-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            flex-grow: 1;  /* Added to ensure cards take up equal space */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 200px;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+
+        #pokemon-select {
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 5px;
+            width: 200px;
+            margin: 10px 0;
+        }
+
+        #result {
+            font-size: 1.5em;
+            color: #ffd700;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            margin: 20px 0;
+        }
+
+        .score {
+            font-size: 1.3em;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 20px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .game-over {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .game-over h2 {
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title"><span>POKÉMON</span> <span>BATTLE</span></h1>
+    <button onclick="startGame()" class="start-button">Start New Game</button>
+    
+    <div id="game-container">
+        <div class="side-container" id="user-side">
+            <h2>Your Pokémon</h2>
+            <select id="pokemon-select"></select>
+            <button onclick="playRound()" class="battle-button">Battle!</button>
+            <div id="user-card" class="card"></div>
+        </div>
+
+        <div class="side-container" id="computer-side">
+            <h2>Computer's Pokémon</h2>
+            <div id="computer-card" class="card"></div>
+        </div>
+    </div>
+
+    <h2 id="result"></h2>
+    <div class="score">
+        Score: You <span id="user-score">0</span> - <span id="computer-score">0</span> Computer
+    </div>
+
+    <div class="game-over" id="game-over">
+        <h2 id="final-result"></h2>
+        <button onclick="startGame()" class="start-button">Play Again</button>
+    </div>
+
+    <script>
+        function startGame() {
+            // Reset scores
+            document.getElementById('user-score').textContent = '0';
+            document.getElementById('computer-score').textContent = '0';
+            
+            // Clear the result text
+            document.getElementById('result').textContent = '';
+            
+            // Clear the cards
+            document.getElementById('user-card').innerHTML = '';
+            document.getElementById('computer-card').innerHTML = '';
+            
+            // Reset the pokemon select dropdown to first option if it exists
+            const selectElement = document.getElementById('pokemon-select');
+            if (selectElement.options.length > 0) {
+                selectElement.selectedIndex = 0;
+            }
+            
+            // Hide the game over modal
+            document.getElementById('game-over').style.display = 'none';
+        }
+
+        // Your existing showGameOver function
+        function showGameOver(winner) {
+            const gameOver = document.getElementById('game-over');
+            const finalResult = document.getElementById('final-result');
+            finalResult.innerHTML = `Game Over!<br>${winner} wins!`;
+            gameOver.style.display = 'block';
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
