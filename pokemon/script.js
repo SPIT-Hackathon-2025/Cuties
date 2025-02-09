@@ -9,6 +9,9 @@ fetch("http://127.0.0.1:5000/start_game")
             .join('');
     });
 
+
+
+const client = new MongoClient('mongodb+srv://maazmalik2004:abenzene1234@dspace.odk45.mongodb.net/');    
 // In your playRound function
 function playRound() {
     fetch("http://127.0.0.1:5000/play_round", {
